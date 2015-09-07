@@ -15,11 +15,10 @@
  * This header and all notices must be kept intact.
  *
  * @author itthinx
- * @package groups-list-users
  * @since 1.0.0
  *
  * Plugin Name: Groups CMember
- * Plugin URI: http://www.itthinx.com/plugins/groups
+ * Plugin URI: https://github.com/itthinx/groups-cmember
  * Description: Provides the [groups_cmember] shortcode. Usage: [groups_cmember group="Blue,Red"]Content to show only if user belongs to groups Blue and Red.[/groups_cmember]
  * Version: 1.0.0
  * Author: itthinx
