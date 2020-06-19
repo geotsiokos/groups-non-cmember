@@ -1,8 +1,6 @@
 <?php
 /**
- * groups-cmember.php
- *
- * Copyright (c) 2015 www.itthinx.com
+ * groups-non-cmember.php
  *
  * This code is released under the GNU General Public License.
  * See COPYRIGHT.txt and LICENSE.txt.
@@ -14,39 +12,38 @@
  *
  * This header and all notices must be kept intact.
  *
- * @author itthinx
+ * @author gtsiokos
  * @since 1.0.0
  *
- * Plugin Name: Groups CMember
- * Plugin URI: https://github.com/itthinx/groups-cmember
- * Description: Provides the [groups_cmember] shortcode. Usage: [groups_cmember group="Blue,Red"]Content to show only if user belongs to groups Blue and Red.[/groups_cmember]
+ * Plugin Name: Groups Non CMember
+ * Plugin URI: https://github.com/geotsiokos/groups-non-cmember
+ * Description: Provides the [groups_non_cmember] shortcode. Usage: [groups_non_cmember group="Blue,Red"]Content to show only if user doesn't belong to groups Blue and Red.[/groups_non_cmember]
  * Version: 1.0.0
- * Author: itthinx
- * Author URI: http://www.itthinx.com
- * Donate-Link: http://www.itthinx.com
+ * Author: gtsiokos
+ * Author URI: http://www.netpad.gr
  * License: GPLv3
  */
 
 /**
  * Provides a conjunctive conditional shortcode.
  */
-class Groups_CMember {
+class Groups_Non_CMember {
 
 	/**
-	 * Registers the [groups_cmember] shortcode handler.
+	 * Registers the [groups_non_cmember] shortcode handler.
 	 */
 	public static function init() {
-		add_shortcode( 'groups_cmember', array( __CLASS__, 'groups_cmember_shortcode' ) );
+		add_shortcode( 'groups_non_cmember', array( __CLASS__, 'groups_non_cmember_shortcode' ) );
 	}
 
 	/**
-	 * Handles the [groups_cmember] shortcode.
-	 * 
+	 * Handles the [groups_non_cmember] shortcode.
+	 *
 	 * @param array $atts
 	 * @param string $content
 	 * @return string
 	 */
-	public static function groups_cmember_shortcode( $atts, $content = null ) {
+	public static function groups_non_cmember_shortcode( $atts, $content = null ) {
 		$output ='';
 		if ( class_exists( 'Groups_Group' ) && method_exists( 'Groups_Group', 'read_by_name' ) ) {
 			$options = shortcode_atts( array( "group" => "" ), $atts );
@@ -61,16 +58,16 @@ class Groups_CMember {
 						$current_group = Groups_Group::read_by_name( $group );
 					}
 					if ( $current_group ) {
-						if ( !Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
+						if ( Groups_User_Group::read( $groups_user->user->ID , $current_group->group_id ) ) {
 							$show_content = false;
 							break;
 						}
 					}
 				}
 				if ( $show_content ) {
-					remove_shortcode( 'groups_cmember' );
+					remove_shortcode( 'groups_non_cmember' );
 					$content = do_shortcode( $content );
-					add_shortcode( 'groups_cmember', array( __CLASS__, 'groups_cmember' ) );
+					add_shortcode( 'groups_non_cmember', array( __CLASS__, 'groups_non_cmember' ) );
 					$output = $content;
 				}
 			}
@@ -78,4 +75,4 @@ class Groups_CMember {
 		return $output;
 	}
 }
-Groups_CMember::init();
+Groups_Non_CMember::init();
